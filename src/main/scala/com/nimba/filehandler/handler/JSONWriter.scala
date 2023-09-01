@@ -12,7 +12,7 @@ import java.nio.file.Paths
 class JSONWriter extends IWriter
 {
 
-    def intrimDataWriter(data: Any, isGroupedData: Boolean, sinkLocation: String, workerId: String): Unit = {
+    def dataWriter(data: Any, isGroupedData: Boolean, sinkLocation: String, workerId: String): Unit = {
         if(isGroupedData){
             val writerData = data.asInstanceOf[Map[String,Seq[Map[String, String]]]]
             val partition = writerData.keySet.toSeq
@@ -21,9 +21,9 @@ class JSONWriter extends IWriter
                 val objectMapper = new ObjectMapper()
                 objectMapper.registerModule(DefaultScalaModule)
                 val jsonData = objectMapper.writeValueAsString(partitionData)
-                val path = sinkLocation +"/"+id+"/"
+                val path = sinkLocation +"/"+id
                 Files.createDirectories(Paths.get(path))
-                val outputFile = new FileWriter(path+workerId+".json")
+                val outputFile = new FileWriter(path+"/"+workerId+".json")
                 outputFile.write(jsonData)
                 outputFile.close()
                 
@@ -36,7 +36,7 @@ class JSONWriter extends IWriter
             val jsonData = objectMapper.writeValueAsString(writerData)
             val path = sinkLocation
             Files.createDirectories(Paths.get(path))
-            val outputFile = new FileWriter(path+workerId+".json")
+            val outputFile = new FileWriter(path+"/"+workerId+".json")
             outputFile.write(jsonData)
             outputFile.close()
         } 
@@ -46,10 +46,7 @@ class JSONWriter extends IWriter
     
 
     def fileWriter(data: Any, isGroupedData: Boolean, sinkLocation: String, options: Map[String, String]): Unit = {
-        val storingType = options.get("storage_layer").get
-        if(storingType.equalsIgnoreCase("internal")){
-            intrimDataWriter(data, isGroupedData, sinkLocation, options.get("worker_id").get)
-        }
+        dataWriter(data, isGroupedData, sinkLocation, options.get("worker_id").get)
         
     }
 }

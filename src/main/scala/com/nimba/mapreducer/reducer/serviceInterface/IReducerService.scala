@@ -8,7 +8,7 @@ abstract class IReducerService
 
     def readData(source_paths: Seq[String], options: Map[String, String]): Seq[Map[String,Seq[Map[String, String]]]]
 
-    // def dataWriter(sinkLocation: String, data: Any, options: Map[String, String], isGroupedData: Boolean = false): Unit
+    def dataWriter(sinkLocation: String, data: Seq[Map[String, String]], options: Map[String, String], outputFormat: String): Unit
 
     // def updateStatus(id: String, path: String): Unit
 }
