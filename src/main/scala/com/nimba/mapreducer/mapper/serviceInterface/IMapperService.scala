@@ -10,6 +10,4 @@ abstract class IMapperService
     def read_data(source_paths: Seq[String], options: Map[String, String]): Seq[Map[String, String]]
 
     def dataWriter(sinkLocation: String, data: Any, options: Map[String, String], isGroupedData: Boolean = false): Unit
-
-    def updateStatus(id: String, path: String): Unit
 }

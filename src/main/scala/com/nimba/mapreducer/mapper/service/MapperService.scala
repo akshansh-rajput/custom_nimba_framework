@@ -51,24 +51,4 @@ class MapperService extends IMapperService
 
     }
 
-    def saveStatus(sinkLocation: String, options: Map[String, String]): Unit = {
-        val result = Map("status" -> "done")
-        val objectMapper = new ObjectMapper()
-        objectMapper.registerModule(DefaultScalaModule)
-        val jsonData = objectMapper.writeValueAsString(result)
-        val id = options.get("worker_id").get
-        val path = sinkLocation 
-        Files.createDirectories(Paths.get(path))
-        val outputFile = new FileWriter(path+ "/" + id + ".json")
-        outputFile.write(jsonData)
-        outputFile.close()
-    }
-
-    def updateStatus(id: String, path: String): Unit = {
-        val options = Map(
-            "worker_id" -> id
-        )
-        saveStatus(path,options)
-    }
-
 }

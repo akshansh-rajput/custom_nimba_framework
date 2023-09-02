@@ -6,11 +6,14 @@ import com.nimba.mapreducer.reducer.service.ReducerService
 import com.nimba.mapreducer.reducer.serviceInterface.IReducerOperation
 import com.nimba.mapreducer.reducer.service.ReducerOperation
 import com.nimba.mapreducer.utils.Utils.option_builder
-
+import com.nimba.status.interface.IStatusService
+import com.nimba.status.statusservice.StatusService
 
 object ReducerRunner{
     private val reducerService: IReducerService = new ReducerService()
     private val reducerOperations: IReducerOperation = new ReducerOperation()
+    private val statusService: IStatusService = new StatusService()
+
 
     def main(args: Array[String]): Unit = {
         // Fetch Mapper config from yaml file
@@ -34,6 +37,7 @@ object ReducerRunner{
         )
         reducerService.dataWriter(reducerConfig.output_loc,result, writerOptions, reducerConfig.output_format)
 
-        // UPDATE STATUS
+        // Update the status of worker
+        statusService.updateStatus(workerId, reducerConfig.status_loc, "done")
     }
 }

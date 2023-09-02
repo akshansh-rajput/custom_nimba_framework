@@ -3,6 +3,7 @@
 target
 data
 mapreducer_int
+mapreducer_internal
 .vscode
 .metals
 output

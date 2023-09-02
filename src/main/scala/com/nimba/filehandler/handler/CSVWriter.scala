@@ -6,8 +6,21 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 
+/**
+ * A CSV file writer.
+ * 
+ * Define the logic to write data into csv files using provided parameters i.e.
+ * delimiter, header etc.
+ *
+ */
 class CSVWriter extends IWriter
 {
+    /**
+     * Extracts headers from data.
+     *
+     * @param data  data.
+     * @return      ordered header name.
+     */
     def getHeader(data: Seq[Map[String, String]]): Map[String, String] = {
         val topRow = data(0)
         val keys = topRow.keySet.toSeq
@@ -20,6 +33,13 @@ class CSVWriter extends IWriter
         header.toMap[String, String]
     }
 
+    /**
+     * Build a single line delimiter sep header for csv file.
+     *
+     * @param header     ordered header name.
+     * @param delimiter  seperator to be use.
+     * @return           single line string.
+     */
     def headerBuilder(header: Map[String, String], delimiter: String): String = {
         val count = header.size
         var headerRow = ""
@@ -34,7 +54,14 @@ class CSVWriter extends IWriter
         headerRow
     }
     
-
+    /**
+     * Writes data to a CSV file with a specified delimiter at the provided sink location.
+     *
+     * @param data         The data to be written.
+     * @param sinkLocation The directory where the CSV file should be saved.
+     * @param workerId     Using for file name so each mapper/reducer can write unique name file.
+     * @param delimiter    The delimiter used to separate.
+     */
     def outputWriter(data: Any, sinkLocation: String, workerId: String, delimiter: String): Unit = { 
         val writerData = data.asInstanceOf[Seq[Map[String, String]]]
         val header = getHeader(writerData)
@@ -61,7 +88,15 @@ class CSVWriter extends IWriter
         
     }
 
-
+    /**
+     * Writes data to a file based on the specified parameters.
+     *
+     * @param data           The data to be written. It can be of any type.
+     * @param isGroupedData  Indicates whether the data is grouped data or not.
+     * @param sinkLocation   The location where the file should be written.
+     * @param options        A map of additional options for configuring the writing process.
+     *
+     */
     def fileWriter(data: Any, isGroupedData: Boolean, sinkLocation: String, options: Map[String, String]): Unit = {
         val storingType = options.get("storage_layer").get
         if(storingType.equalsIgnoreCase("output")){

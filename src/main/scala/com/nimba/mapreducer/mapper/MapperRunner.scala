@@ -6,12 +6,15 @@ import com.nimba.mapreducer.utils.Utils.option_builder
 import com.nimba.mapreducer.mapper.config.MapperTransformations
 import com.nimba.mapreducer.mapper.serviceInterface.IProcessTransformations
 import com.nimba.mapreducer.mapper.service.ProcessTransformations
+import com.nimba.status.interface.IStatusService
+import com.nimba.status.statusservice.StatusService
 
 
 object MapperRunner{
 
     private val mapperService: IMapperService = new MapperService()
     private val transformationService: IProcessTransformations = new ProcessTransformations()
+    private val statusService: IStatusService = new StatusService()
 
 
     def main(args: Array[String]): Unit = {
@@ -46,6 +49,6 @@ object MapperRunner{
         }
         
         // Update the status of worker
-        mapperService.updateStatus(worker_id, mapperConfig.status_loc)
+        statusService.updateStatus(worker_id, mapperConfig.status_loc, "done")
     }
 }
