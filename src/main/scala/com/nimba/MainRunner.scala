@@ -3,7 +3,8 @@ package com.nimba
 import com.nimba.taskcontroller.Nimba
 import com.nimba.mapreducer.mapper.config.Transformation
 import com.nimba.mapreducer.constants.MapperServiceTypes._
-
+import com.nimba.mapreducer.constants.ReducerServiceTypes._
+import com.nimba.mapreducer.reducer.config.Operation
 
 object MainRunner
 {
@@ -24,7 +25,23 @@ object MainRunner
             )
           
         Nimba.finilizeMapper(mapperBuilder)
-        Nimba.start()
+
+        val reducerBuilder = Nimba.startNewReducer()
+        reducerBuilder
+            .outputLocation("output/task_1/data")
+            .outputFormat("csv")
+            .data(mapperBuilder)
+            .outputDelimiter(",")
+            .transformations(
+                Operation(
+                    transformation_type = COUNT_ROWS,
+                    params = Map(
+                        GROUP_COL_ALIAS -> "date"
+                    )
+                )
+            )
+        Nimba.finilizeReducer(reducerBuilder)
+        // Nimba.start()
             
     }
 
@@ -66,23 +83,27 @@ object MainRunner
                     )
                 )
             )
+        
+        val reducerBuilder = Nimba.startNewReducer()
+        reducerBuilder
+            .outputLocation("output/task_2/data")
+            .outputFormat("csv")
+            .outputDelimiter(",")
+            .data(mapperBuilder)
+            .join(secondMapper, INNER_JOIN)
 
         Nimba.finilizeMapper(mapperBuilder)
         Nimba.finilizeMapper(secondMapper)
-        Nimba.start()
+        Nimba.finilizeReducer(reducerBuilder)
             
     }
      
     // Main method
     def main(args: Array[String]): Unit =
     {
-        // task_1()
+        task_1()
         task_2()
-
-        // import scala.sys.process._
-        // println("STARTING 1")
-        // "java -cp target/nimba-framework-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.nimba.mapreducer.mapper.MapperRunner mapreducer_int/mapper e1".!
-        // println("Starting")
-        // "java -cp target/nimba-framework-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.nimba.mapreducer.mapper.MapperRunner mapreducer_int/mapper e1".!
+        Nimba.start()
+        
     }
 }

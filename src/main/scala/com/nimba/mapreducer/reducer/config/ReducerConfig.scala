@@ -6,11 +6,12 @@ case class Operation(
 )
 
 case class ReducerOperations(
-    data_source: String,
-    data_format: String,
-    data_delimiter: String,
-    output_format: String,
-    output_loc: String,
-    status_loc: String,
-    transformations: Operation
+    data_source: String = "",
+    data_format: String = "json",
+    data_delimiter: String = ",",
+    output_format: String = "csv",
+    output_delimiter: String = ",",
+    output_loc: String = "",
+    status_loc: String = "",
+    transformations: Operation = null
 )

@@ -89,11 +89,32 @@ class ProcessTransformations extends IProcessTransformations
         filterData
     }
 
-
+    /**
+     * Group a sequence of maps by a specified key.
+     *
+     * This method takes a sequence of maps and groups them based on a specified key. The resulting Map
+     * contains key-value pairs where the keys are distinct values found in the specified key of the maps,
+     * and the values are sequences of maps that share the same key value.
+     *
+     * @param data The sequence of maps to be grouped.
+     * @param key The key by which to group the maps.
+     * @return A Map where keys represent distinct values of the specified key, and values are sequences of maps.
+     */
     def grouping(data: Seq[Map[String, String]], key: String): Map[String, Seq[Map[String, String]]] = {
         data.groupBy(_.get(key).get)
     }
 
+    /**
+     * Apply a series of transformations to a sequence of maps.
+     *
+     * This method applies a series of transformations specified in the transformationConfig map to a sequence of maps data.
+     * Each transformation is identified by a unique key with the prefix "t_" in the transformationConfig map. Supported transformation
+     * types include "filter" and others. The order of transformations is determined by the numeric suffixes in the keys.
+     *
+     * @param transformationConfig A map containing transformation configurations with keys prefixed by "t_".
+     * @param data The sequence of maps to which transformations should be applied.
+     * @return A sequence of maps after applying the specified transformations.
+     */
     def applyTransformations(transformationConfig: Map[String, Transformation], data: Seq[Map[String, String]]): Seq[Map[String, String]] = {
         val keyPrefix = "t_"
         if(transformationConfig == null || transformationConfig.isEmpty)
@@ -122,6 +143,15 @@ class ProcessTransformations extends IProcessTransformations
         transformData
     }
 
+    /**
+     * Apply grouping to a sequence of maps based on a specified key.
+     *
+     * This method applies a grouping transformation to the given sequence of maps data.
+     *
+     * @param config The configuration for the grouping transformation.
+     * @param data The sequence of maps to be grouped.
+     * @return A Map where keys represent distinct values of the specified key, and values are sequences of maps.
+     */
     def applyGrouping(config: Transformation, data: Seq[Map[String, String]]): Map[String,Seq[Map[String, String]]] = {
         val params = config.params
         val key = params.get("key").get.asInstanceOf[String]
