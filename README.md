@@ -29,8 +29,8 @@ This architecture ensures efficient and fault-tolerant data processing, with eac
 2. Java  : 11.0.1
 3. Maven
 ## Steps to run this framework on local
-1. Navigate inside the dir `custom_nimble_framework`.
-2. create data dir inside `custom_nimble_framework`
+1. Navigate inside the dir `custom_nimba_framework`.
+2. create data dir inside `custom_nimba_framework`
    ```
    mkdir data
    cd data
@@ -38,7 +38,7 @@ This architecture ensures efficient and fault-tolerant data processing, with eac
    mkdir users
    ```
 3. Update clicks files in clicks dir and users files in users dir.
-4. Navigate back to `custom_nimble_framework` dir and run maven command to build package
+4. Navigate back to `custom_nimba_framework` dir and run maven command to build package
     ```
    mvn clean package
     ```
