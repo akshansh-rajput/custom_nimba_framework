@@ -1,3 +1,11 @@
+# WIP
+- [ ] Add unit test cases
+- [ ] Refactor package name ( not like C#?)
+- [ ] Refactor/optimize code
+- [ ] Add docker container for mapper and reducer
+- [ ] Remove mapper & reducer main class and add different style to dynamically invoke it
+- [ ] Create a taskController deamon. Look  if new task added my User and perform it.
+
 # custom_nimba_framework
 Framework to execute transformation on data using custom build mapper and reducer
 ## Architecture
